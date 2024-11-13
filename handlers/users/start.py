@@ -1,16 +1,18 @@
 import asyncio
 import sqlite3
 from datetime import datetime
+from pyexpat.errors import messages
 
 from aiogram import types
+from aiogram.dispatcher import FSMContext
+from marshmallow.fields import Boolean
 
 from database import cursor, connect
-from keyboards.default.buttons import start_menu, Kurslarim, Konsultatsiya
-from keyboards.inline.til import narx
+from keyboards.default.buttons import start_menu, Kurslarim, Konsultatsiya,contact_button
+from keyboards.inline.til import narx, bonus
 
 from loader import dp, bot
-
-
+datas = {}
 # @dp.message_handler(CommandStart())
 # async def bot_start(message: types.Message):
 #     #if bor bo`lsa xush kelibsiz botimizga
@@ -24,25 +26,73 @@ from loader import dp, bot
 #
 #     await message.answer(f"Salom, {message.from_user.full_name}!")
 
-@dp.message_handler(commands=['start'])
-async def bot_start(message: types.Message):
-    user_id = message.from_user.id
-    full_name = message.from_user.full_name
+# @dp.message_handler(commands=['start'])
+# async def bot_start(message: types.Message):
+#     user_id = message.from_user.id
+#     full_name = message.from_user.full_name
+#
+#     cursor.execute("SELECT * FROM users_table WHERE user_id = ?", (user_id,))
+#     user = cursor.fetchone()
+#
+#     if user:
+#         await message.answer(f"Xush kelibsiz, {full_name}!")
+#     else:
+#         joined_date = datetime.now().strftime("%Y-%m-%d")
+#         cursor.execute("INSERT INTO users_table (user_id, full_name, joined_date) VALUES (?, ?, ?)",
+#                        (user_id, full_name, joined_date))
+#         connect.commit()
+#         await message.answer(f"Xush kelibsiz, {full_name}!")
+#     await message.answer_video_note(video_note=open('media/start_reklama.mp4',"rb"))
+#
+#     await message.answer("Quyidagi tugmalardan birini tanlang:", reply_markup=start_menu)
 
-    cursor.execute("SELECT * FROM users_table WHERE user_id = ?", (user_id,))
-    user = cursor.fetchone()
+from database import check_user_data, bazaga_qoshish,update_contact
+from states.aloqa_states import BotStates
 
-    if user:
-        await message.answer(f"Xush kelibsiz, {full_name}!")
+
+@dp.message_handler(commands='start')
+async def start_bosganda(message: types.Message):
+    await message.answer(f"Assalomu Aleykum {message.from_user.first_name}")
+    await message.answer_video_note(video_note=open('media/start_reklama.mp4', "rb"))
+    status = await check_user_data(str(message.from_user.id))
+    name = cursor.execute("SELECT ism FROM user_full_data WHERE tg_id = ?", (message.from_user.id,)).fetchone()
+    if status == True:
+        await message.answer(f'Hurmatli {name[0]}', reply_markup=start_menu)
     else:
-        joined_date = datetime.now().strftime("%Y-%m-%d")
-        cursor.execute("INSERT INTO users_table (user_id, full_name, joined_date) VALUES (?, ?, ?)",
-                       (user_id, full_name, joined_date))
-        connect.commit()
-        await message.answer(f"Xush kelibsiz, {full_name}!")
-    await message.answer_video_note(video_note=open('media/start_reklama.mp4',"rb"))
+        await message.answer("Botda foydalanish uchun ismingizni kiriting")
+        await BotStates.name_state.set()
 
-    await message.answer("Quyidagi tugmalardan birini tanlang:", reply_markup=start_menu)
+
+@dp.message_handler(state=BotStates.name_state, content_types=types.ContentTypes.TEXT)
+async def name_saver(message: types.Message, state: FSMContext):
+    ism = message.text
+    user_id = message.from_user.id
+    joined_date = message.date
+    result = await bazaga_qoshish(ism=ism, tg_id=user_id, joined_data=joined_date)
+    if result == Boolean:
+        await message.answer("Siz oldin ro`yxatdan o`tgansiz", reply_markup=start_menu)
+        await state.finish()
+    else:
+        await message.answer(result, reply_markup=contact_button)
+        await BotStates.contacter.set()
+
+@dp.message_handler(content_types=types.ContentTypes.CONTACT, state=BotStates.contacter)
+async def xurshid(message: types.Message, state: FSMContext):
+    await update_contact(str(message.from_user.id), str(message.contact.phone_number))
+    await message.answer("Siz ro`yxatdan o`tdizngiz",reply_markup=types.ReplyKeyboardRemove())
+    message_id = await message.answer("Siz uchun bepul kitobimiz taqdim etiladi", reply_markup=bonus)
+    datas[message.from_user.id] = message_id.message_id
+    await state.finish()
+
+
+@dp.callback_query_handler(text="bonus")
+async def bonus_ssaa(call: types.CallbackQuery):
+
+    await call.bot.send_document(call.message.chat.id, open('media/bonus.pdf', 'rb'), reply_markup=start_menu)
+    await bot.delete_message(call.message.chat.id, datas[call.message.chat.id])
+
+
+
 
 
 @dp.message_handler(text="📔Kurslarim")

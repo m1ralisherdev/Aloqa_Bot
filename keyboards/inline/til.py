@@ -18,3 +18,12 @@ narx = InlineKeyboardMarkup(
         ]
     ]
 )
+
+
+bonus = InlineKeyboardMarkup(
+    inline_keyboard=[
+        [
+            InlineKeyboardButton(text="Bonusni olish🎁", callback_data="bonus")
+        ]
+    ]
+)

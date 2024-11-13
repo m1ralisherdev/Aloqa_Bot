@@ -5,3 +5,5 @@ from aiogram.contrib.fsm_storage.memory import MemoryStorage
 
 class BotStates(StatesGroup):
     reklama_state = State()
+    name_state = State()
+    contacter = State()
