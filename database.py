@@ -41,3 +41,6 @@ async def update_contact(tg_id, phone_number):
 
 
 
+def get_all_data():
+    cursor.execute('SELECT * FROM user_full_data')
+    return cursor.fetchall()

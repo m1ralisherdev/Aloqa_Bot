@@ -3,15 +3,15 @@ from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 start_menu = ReplyKeyboardMarkup(
     keyboard=[
         [
-            KeyboardButton(text="📔Kurslarim"),
-            KeyboardButton(text='📚Jinsiy Tarbiya'),
+            KeyboardButton(text="📔 Kurslarim"),
+            KeyboardButton(text='📚 Jinsiy Tarbiya'),
         ],
         [
-            KeyboardButton(text='🗣Konsultatsiyaga yozilish'),
-            KeyboardButton(text="📞Adminga bilan bog'lanish"),
+            KeyboardButton(text='🗣 Konsultatsiyaga yozilish'),
+            KeyboardButton(text="📞 Admin bilan bog'lanish"),
         ],
         [
-            KeyboardButton(text="🧕🏻Men Haqqimda")
+            KeyboardButton(text="🧕🏻 Men Haqimda")
         ]
     ],
     resize_keyboard=True)
@@ -19,7 +19,7 @@ start_menu = ReplyKeyboardMarkup(
 Kurslarim = ReplyKeyboardMarkup(
     keyboard=[
         [
-            KeyboardButton(text="Jinsiy Tarbiya"),
+            KeyboardButton(text="Siz Baxtli Bo'lasiz 💖"),
         ],
         [
             KeyboardButton(text='Professional kurs'),
@@ -53,5 +53,5 @@ contact_button = ReplyKeyboardMarkup(
         [
             KeyboardButton('📞 Telefon raqam', request_contact=True)
         ]
-    ]
+    ], resize_keyboard=True
 )
