@@ -3,13 +3,14 @@ from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 start_menu = ReplyKeyboardMarkup(
     keyboard=[
         [
-            KeyboardButton(text="📔 Kurslarim"),
+            # KeyboardButton(text="📔 Kurslarim"),
             KeyboardButton(text='📚 Jinsiy Tarbiya'),
-        ],
-        [
-            KeyboardButton(text='🗣 Konsultatsiyaga yozilish'),
             KeyboardButton(text="📞 Admin bilan bog'lanish"),
         ],
+        # [
+        #     # KeyboardButton(text='🗣 Konsultatsiyaga yozilish'),
+        #     KeyboardButton(text="📞 Admin bilan bog'lanish"),
+        # ],
         [
             KeyboardButton(text="🧕🏻 Men Haqimda")
         ]

@@ -2,11 +2,9 @@ import asyncio
 import sqlite3
 from datetime import datetime
 from pyexpat.errors import messages
-
 from aiogram import types
 from aiogram.dispatcher import FSMContext
 from marshmallow.fields import Boolean
-
 from database import cursor, connect
 from keyboards.default.buttons import start_menu, Kurslarim, Konsultatsiya,contact_button
 from keyboards.inline.til import narx, bonus
@@ -16,38 +14,6 @@ from data.config import ADMINS
 
 from loader import dp, bot
 datas = {}
-# @dp.message_handler(CommandStart())
-# async def bot_start(message: types.Message):
-#     #if bor bo`lsa xush kelibsiz botimizga
-#     #else til tanlang inline 2 ta button uzbek rus
-#     #agar admin  aykana video jo`natsa agar hammaga shu video jo`natilsin
-#     #admin /reklama bossa agar avval rasm keyin pastida text kiritsin rasm va caption hammaga bir vaqttda jo`natilsin usernalrni databasedagi idlar orqali jo`natasilar
-#     # botda birkunda qo`shilgan  odamlar soni 1 hafta va 1 oyda qancha qo`shilganlar soni bittasa /statistika komandasi orqali ko`rsatilsin
-#     #bot gurux uchun birmartalik link yaratsin va faqat 1 ta odam qo`shilsa agar link expire bo`lsin
-# dumaloq video  kurslarim / konsultatsiya / pullik kitobim /adinga murojaat qilish /
-#
-#
-#     await message.answer(f"Salom, {message.from_user.full_name}!")
-
-# @dp.message_handler(commands=['start'])
-# async def bot_start(message: types.Message):
-#     user_id = message.from_user.id
-#     full_name = message.from_user.full_name
-#
-#     cursor.execute("SELECT * FROM users_table WHERE user_id = ?", (user_id,))
-#     user = cursor.fetchone()
-#
-#     if user:
-#         await message.answer(f"Xush kelibsiz, {full_name}!")
-#     else:
-#         joined_date = datetime.now().strftime("%Y-%m-%d")
-#         cursor.execute("INSERT INTO users_table (user_id, full_name, joined_date) VALUES (?, ?, ?)",
-#                        (user_id, full_name, joined_date))
-#         connect.commit()
-#         await message.answer(f"Xush kelibsiz, {full_name}!")
-#     await message.answer_video_note(video_note=open('media/start_reklama.mp4',"rb"))
-#
-#     await message.answer("Quyidagi tugmalardan birini tanlang:", reply_markup=start_menu)
 
 from database import check_user_data, bazaga_qoshish,update_contact
 from states.aloqa_states import BotStates
@@ -166,6 +132,9 @@ async def course_answer1(message: types.Message):
 async def course_answer1(message: types.Message):
     await bot.send_message(chat_id=message.from_user.id, text="⏳ Tez kunda !!!", reply_markup=start_menu)
 
+@dp.message_handler(text='📚 Jinsiy Tarbiya')
+async def course_answer1(message: types.Message):
+    await bot.send_message(chat_id=message.from_user.id, text="⏳ Tez kunda !!!")
 
 @dp.message_handler(text="Geysha sirlari")
 async def course_answer1(message: types.Message):
