@@ -1,6 +1,3 @@
-import asyncio
-import hashlib
-import sqlite3
 from datetime import datetime
 from pyexpat.errors import messages
 from aiogram import types
@@ -11,12 +8,7 @@ from keyboards.default.buttons import start_menu, Kurslarim, Konsultatsiya,conta
 from keyboards.inline.til import narx, bonus
 from utils.for_excel import create_excel
 from data.config import ADMINS
-from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
-from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
-from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.dispatcher import FSMContext
-from aiogram.dispatcher.filters.state import StatesGroup, State
-import time
 
 
 from loader import dp, bot
