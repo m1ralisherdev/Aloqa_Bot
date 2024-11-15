@@ -1,4 +1,5 @@
 import asyncio
+import hashlib
 import sqlite3
 from datetime import datetime
 from pyexpat.errors import messages
@@ -10,6 +11,12 @@ from keyboards.default.buttons import start_menu, Kurslarim, Konsultatsiya,conta
 from keyboards.inline.til import narx, bonus
 from utils.for_excel import create_excel
 from data.config import ADMINS
+from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
+from aiogram.contrib.fsm_storage.memory import MemoryStorage
+from aiogram.dispatcher import FSMContext
+from aiogram.dispatcher.filters.state import StatesGroup, State
+import time
 
 
 from loader import dp, bot
@@ -139,3 +146,14 @@ async def course_answer1(message: types.Message):
 @dp.message_handler(text="Geysha sirlari")
 async def course_answer1(message: types.Message):
     await bot.send_message(chat_id=message.from_user.id, text="⏳ Tez kunda !!!", reply_markup=start_menu)
+
+
+@dp.message_handler(lambda message: message.text == "🧕🏻 Men Haqimda")
+async def about_me(message: types.Message):
+    try:
+        with open('media/nadia.jpg', 'rb') as photo:
+            await message.answer_photo(photo, caption=(
+                "Men Nadia Abdullaxodjayeva\n Abdukadirovna, koʻp yillik\n tajribaga ega reproduktiv\n psixologman...\n"
+            ))
+    except Exception as e:
+        await message.answer(f"Rasm yuklashda xatolik: {e}")

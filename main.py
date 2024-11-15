@@ -62,7 +62,7 @@ async def start(message: types.Message):
 @dp.message_handler(lambda message: message.text == "👤Men haqimda")
 async def about_me(message: types.Message):
     try:
-        with open('test.jpg', 'rb') as photo:
+        with open('media/nadia.jpg', 'rb') as photo:
             await message.answer_photo(photo, caption=(
                 "Men Nadia Abdullaxodjayeva Abdukadirovna, koʻp yillik tajribaga ega reproduktiv psixologman...\n"
             ))
