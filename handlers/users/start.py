@@ -218,4 +218,11 @@ async def about_me(message: types.Message):
 
 @dp.message_handler(text="📞 Admin bilan bog'lanish")
 async def admin_bilan_boglanish(message: types.Message):
-    await message.answer(f"<a href='https://t.me/@nadia_admini'>Admin bilan bog'lanish</a>")
+    kanal_btn = InlineKeyboardMarkup(
+        inline_keyboard=[
+            [
+                InlineKeyboardButton("@nadia_admini",url="https://t.me/@nadia_admini")
+            ]
+        ]
+    )
+    await message.answer("Admin bilan bo'glanish",reply_markup=kanal_btn)
