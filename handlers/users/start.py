@@ -4,31 +4,74 @@ from aiogram import types
 from aiogram.dispatcher import FSMContext
 from marshmallow.fields import Boolean
 from database import cursor, connect
-from keyboards.default.buttons import start_menu, Kurslarim, Konsultatsiya,contact_button
+from keyboards.default.buttons import start_menu, Kurslarim, Konsultatsiya, contact_button
 from keyboards.inline.til import narx, bonus
 from utils.for_excel import create_excel
 from data.config import ADMINS
 from aiogram.dispatcher import FSMContext
-
+from aiogram.types import *
 
 from loader import dp, bot
+
 datas = {}
 
-from database import check_user_data, bazaga_qoshish,update_contact
+from database import check_user_data, bazaga_qoshish, update_contact
 from states.aloqa_states import BotStates
 
 
+async def check_subscription(user_id):
+    try:
+        member = await bot.get_chat_member(chat_id=CHANNEL_ID, user_id=user_id)
+        return member.status in ["member", "administrator", "creator"]
+    except Exception as e:
+        return False
+
+
 @dp.message_handler(commands='start')
-async def start_bosganda(message: types.Message):
+async def start_bosganda(message: types.Message, state: FSMContext):
     await message.answer(f"Assalomu Aleykum {message.from_user.first_name}")
     await message.answer_video_note(video_note=open('media/start_reklama.mp4', "rb"))
+
+    is_subscribed = await check_subscription(message.from_user.id)
+
+    if not is_subscribed:
+        await message.answer(
+            """<b>Avval telegram kanalga obuna bo'ling 😊
+            
+Obuna bo'lgandan so'ng esa <code>tekshirish</code> tugmasini bo'sing ✅
+            </b>""",
+            reply_markup=InlineKeyboardMarkup(row_width=1).add(
+                InlineKeyboardButton("Kanalga obuna bo'lish", url=f"https://t.me/{CHANNEL_USERNAME}"),
+                InlineKeyboardButton("Tekshirish", callback_data="check_subscription")
+            )
+        )
+        return
+
+    await process_user_registration(message)
+
+
+async def process_user_registration(message: types.Message):
     status = await check_user_data(str(message.from_user.id))
     name = cursor.execute("SELECT ism FROM user_full_data WHERE tg_id = ?", (message.from_user.id,)).fetchone()
-    if status == True:
-        await message.answer(f'Hurmatli {name[0]}', reply_markup=start_menu)
+
+    if status:
+        await message.delete()
+        await message.answer(f"Hurmatli {name[0]}, botimizga xush kelibsiz!", reply_markup=start_menu)
     else:
-        await message.answer("Botda foydalanish uchun ismingizni kiriting")
+        await message.delete()
+        await message.answer("Botda foydalanish uchun ismingizni kiriting", reply_markup=ReplyKeyboardRemove())
         await BotStates.name_state.set()
+
+
+@dp.callback_query_handler(text="check_subscription")
+async def check_subscription_callback(call: types.CallbackQuery):
+    is_subscribed = await check_subscription(call.from_user.id)
+
+    if is_subscribed:
+        await call.message.edit_text("Rahmat! Siz kanalga obuna bo'lgansiz. Endi botdan foydalanishingiz mumkin.")
+        await process_user_registration(call.message)
+    else:
+        await call.answer("Siz hali kanalga obuna bo'lmagansiz. Iltimos, obuna bo'ling!", show_alert=True)
 
 
 @dp.message_handler(state=BotStates.name_state, content_types=types.ContentTypes.TEXT)
@@ -44,10 +87,11 @@ async def name_saver(message: types.Message, state: FSMContext):
         await message.answer(result, reply_markup=contact_button)
         await BotStates.contacter.set()
 
+
 @dp.message_handler(content_types=types.ContentTypes.CONTACT, state=BotStates.contacter)
 async def xurshid(message: types.Message, state: FSMContext):
     await update_contact(str(message.from_user.id), str(message.contact.phone_number))
-    await message.answer("Siz ro`yxatdan o`tdizngiz",reply_markup=types.ReplyKeyboardRemove())
+    await message.answer("Siz ro`yxatdan o`tdizngiz", reply_markup=types.ReplyKeyboardRemove())
     message_id = await message.answer("Siz uchun bepul kitobimiz taqdim etiladi", reply_markup=bonus)
     datas[message.from_user.id] = message_id.message_id
     await state.finish()
@@ -55,12 +99,8 @@ async def xurshid(message: types.Message, state: FSMContext):
 
 @dp.callback_query_handler(text="bonus")
 async def bonus_ssaa(call: types.CallbackQuery):
-
     await call.bot.send_document(call.message.chat.id, open('media/bonus.pdf', 'rb'), reply_markup=start_menu)
     await bot.delete_message(call.message.chat.id, datas[call.message.chat.id])
-
-
-
 
 
 @dp.message_handler(text="📔 Kurslarim")
@@ -117,23 +157,26 @@ async def reklama_send(message: types.Message):
 async def get_users_data(message: types.Message):
     if str(message.from_user.id) in ADMINS:
         await create_excel()
-        
+
         await message.answer_document(open('users_data.xlsx', 'rb'))
     else:
-        await message.answer("Bu faqat adminlar uchun!!!")        
+        await message.answer("Bu faqat adminlar uchun!!!")
 
 
 @dp.message_handler(text="Siz Baxtli Bo'lasiz 💖")
 async def course_answer1(message: types.Message):
     await bot.send_message(chat_id=message.from_user.id, text="⏳ Tez kunda !!!", reply_markup=start_menu)
 
+
 @dp.message_handler(text="Professional kurs")
 async def course_answer1(message: types.Message):
     await bot.send_message(chat_id=message.from_user.id, text="⏳ Tez kunda !!!", reply_markup=start_menu)
 
+
 @dp.message_handler(text='📚 Jinsiy Tarbiya')
 async def course_answer1(message: types.Message):
     await bot.send_message(chat_id=message.from_user.id, text="⏳ Tez kunda !!!")
+
 
 @dp.message_handler(text="Geysha sirlari")
 async def course_answer1(message: types.Message):
