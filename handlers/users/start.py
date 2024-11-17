@@ -193,7 +193,7 @@ async def course_answer1(message: types.Message):
 @dp.message_handler(lambda message: message.text == "🧕🏻 Men Haqimda")
 async def about_me(message: types.Message):
     try:
-        with open('media/nadia1.jpg', 'rb') as photo:
+        with open('media/nadia.jpg', 'rb') as photo:
             await message.answer_photo(photo, caption=(
                 """
 🌟 Men Nadia Abdullaxodjayeva Abdukadirovna, koʻp yillik tajribaga ega reproduktiv psixologman.
