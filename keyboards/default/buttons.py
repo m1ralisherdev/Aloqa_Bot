@@ -12,6 +12,7 @@ start_menu = ReplyKeyboardMarkup(
         #     KeyboardButton(text="📞 Admin bilan bog'lanish"),
         # ],
         [
+            KeyboardButton(text="📔 Kurslarim"),
             KeyboardButton(text="🧕🏻 Men Haqimda")
         ]
     ],

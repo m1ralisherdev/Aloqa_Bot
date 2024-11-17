@@ -30,7 +30,14 @@ async def check_subscription(user_id):
 @dp.message_handler(commands='start')
 async def start_bosganda(message: types.Message, state: FSMContext):
     await message.answer(f"Assalomu Aleykum {message.from_user.first_name}")
-    await message.answer_video_note(video_note=open('media/start_reklama.mp4', "rb"))
+    # await message.answer_video_note(video_note=open('media/start_reklama.mp4', "rb"))
+    await message.answer("""
+Assalomu alaykum😊
+
+Mening rasmiy Telegram botimga xush kelibsiz! Bu yerda siz maxsus yopiq kurslar, vebinar va seminarlar uchun toʻlovni amalga oshirishingiz mumkin.
+
+Buning uchun oʻzingizga kerakli boʻlimni tanlang⬇️  
+    """)
 
     is_subscribed = await check_subscription(message.from_user.id)
 
