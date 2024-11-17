@@ -37,7 +37,7 @@ Assalomu alaykum😊
 Mening rasmiy Telegram botimga xush kelibsiz! Bu yerda siz maxsus yopiq kurslar, vebinar va seminarlar uchun toʻlovni amalga oshirishingiz mumkin.
 
 Buning uchun oʻzingizga kerakli boʻlimni tanlang⬇️  
-    """)
+    """, reply_markup=start_menu)
 
     is_subscribed = await check_subscription(message.from_user.id)
 
@@ -193,7 +193,7 @@ async def course_answer1(message: types.Message):
 @dp.message_handler(lambda message: message.text == "🧕🏻 Men Haqimda")
 async def about_me(message: types.Message):
     try:
-        with open('media/nadia.jpg', 'rb') as photo:
+        with open('media/nadia1.jpg', 'rb') as photo:
             await message.answer_photo(photo, caption=(
                 """
 🌟 Men Nadia Abdullaxodjayeva Abdukadirovna, koʻp yillik tajribaga ega reproduktiv psixologman.
@@ -214,3 +214,8 @@ async def about_me(message: types.Message):
             ))
     except Exception as e:
         await message.answer(f"Rasm yuklashda xatolik: {e}")
+
+
+@dp.message_handler(text="📞 Admin bilan bog'lanish")
+async def admin_bilan_boglanish(message: types.Message):
+    await message.answer(f"<a href='https://t.me/@nadia_admini'>Admin bilan bog'lanish</a>")
