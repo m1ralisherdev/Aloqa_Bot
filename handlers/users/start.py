@@ -7,7 +7,7 @@ from database import cursor, connect
 from keyboards.default.buttons import start_menu, Kurslarim, Konsultatsiya, contact_button
 from keyboards.inline.til import narx, bonus
 from utils.for_excel import create_excel
-from data.config import ADMINS
+from data.config import ADMINS, CHANNEL_USERNAME, CHANNEL_ID
 from aiogram.dispatcher import FSMContext
 from aiogram.types import *
 
