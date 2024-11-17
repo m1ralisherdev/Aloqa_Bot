@@ -195,7 +195,23 @@ async def about_me(message: types.Message):
     try:
         with open('media/nadia.jpg', 'rb') as photo:
             await message.answer_photo(photo, caption=(
-                "Men Nadia Abdullaxodjayeva\n Abdukadirovna, koʻp yillik\n tajribaga ega reproduktiv\n psixologman...\n"
+                """
+🌟 Men Nadia Abdullaxodjayeva Abdukadirovna, koʻp yillik tajribaga ega reproduktiv psixologman.
+🎓 Toshkent davlat pedagogika universitetida tahsil olganman. Psixologiya yoʻnalishi boʻyicha bakalavr va magistr darajasiga egaman.
+
+📘 Ushbu oliygoh qoshidagi Mutaxassislarni qayta tayyorlash maktabining psixologiya kursida doimiy malaka oshiraman.
+💻 Onlayn amaliy psixologiya institutida 1,5 yil davomida amaliy psixologiya va seksologiya yoʻnalishlarida tahsil olganman.
+
+🏫 Hozirda Nadiaʼs School nomli reproduktiv psixologiya maktabiga asos solganman.
+⏳ 3000 soatdan ortiq terapevtik kurslar oʻtkazganman.
+
+📚 Asarlarim:
+ • “Bepushtlik bilan ogʻrigan ayollarning psixologik xususiyatlari”
+ • “Jinsiy tarbiya”
+ • “Vaginizmning ilmiy asosi — bu birlamchi bepushtlikka olib keluvchi omil” maqolasi muallifiman.
+
+Bu matnni Telegram uchun moslashtirib, taqdim etdim. Agar qo’shimcha o’zgarishlar yoki boshqa talablarga ehtiyoj bo’lsa, xabar bering!
+                """
             ))
     except Exception as e:
         await message.answer(f"Rasm yuklashda xatolik: {e}")
