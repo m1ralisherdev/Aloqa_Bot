@@ -210,7 +210,6 @@ async def about_me(message: types.Message):
  • “Jinsiy tarbiya”
  • “Vaginizmning ilmiy asosi — bu birlamchi bepushtlikka olib keluvchi omil” maqolasi muallifiman.
 
-Bu matnni Telegram uchun moslashtirib, taqdim etdim. Agar qo’shimcha o’zgarishlar yoki boshqa talablarga ehtiyoj bo’lsa, xabar bering!
                 """
             ))
     except Exception as e:
