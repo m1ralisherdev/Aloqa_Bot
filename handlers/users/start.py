@@ -5,7 +5,7 @@ from aiogram.dispatcher import FSMContext
 from marshmallow.fields import Boolean
 from database import cursor, connect
 from keyboards.default.buttons import start_menu, Kurslarim, Konsultatsiya, contact_button
-from keyboards.inline.til import narx, bonus
+from keyboards.inline.til import narx, bonus, bonus_2
 from utils.for_excel import create_excel
 from data.config import ADMINS, CHANNEL_USERNAME, CHANNEL_ID
 from aiogram.dispatcher import FSMContext
@@ -32,8 +32,6 @@ async def start_bosganda(message: types.Message, state: FSMContext):
     if " " in message.text:
         param = message.text.split(" ", 1)[1]
         if param == 'start':
-            await message.answer_document(open('media/Intim-xavfsizlik-qoidalari.pdf', 'rb'))
-
             await message.answer_photo(open('media/register_foto.jpg', 'rb'), caption="""Vebinarga ro'yxatdan o'tganingiz uchun tashakkur-" Haqiqiy baxtga yetish uchun 5 qadam"!🔥
 
 ..........."Haqiqiy baxtga yetish uchun 5 qadam" Vebinarga  muvaffaqiyatli ro'yxatdan o'tganingiz bilan tabriklayman!🎉
@@ -46,7 +44,7 @@ Men sizga efirning boshlanishini eslataman, shuning uchun xatlarimni kuzatib bor
 
 Agar siz shaxsiy hayotingizda extiros va baxtli munosabatlarni, energiyanga  boy bolishni istasangiz, sizni….. dekabr  kuni Vebinarga ishtirok etishingiz uchun ishonch hosil qiling! 🔥
 
-Sizning bonusingiz sizni bu erda kutmoqda 👇""")
+Sizning bonusingiz sizni bu erda kutmoqda 👇""" , reply_markup=bonus_2)
     await message.answer(f"Assalomu Aleykum {message.from_user.first_name}")
     # await message.answer_video_note(video_note=open('media/start_reklama.mp4', "rb"))
 
@@ -80,6 +78,9 @@ async def process_user_registration(message: types.Message):
         await message.delete()
         await message.answer("Botda foydalanish uchun ismingizni kiriting", reply_markup=ReplyKeyboardRemove())
         await BotStates.name_state.set()
+@dp.callback_query_handler(text="bonus_2")
+async def bonus_22(call: types.CallbackQuery):
+    await call.message.answer_document(open('media/Intim-xavfsizlik-qoidalari.pdf', 'rb'))
 
 
 @dp.callback_query_handler(text="check_subscription")
