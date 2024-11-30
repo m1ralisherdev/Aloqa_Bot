@@ -34,9 +34,9 @@ async def start_bosganda(message: types.Message, state: FSMContext):
         if param == 'start':
             await message.answer_photo(open('media/register_foto.jpg', 'rb'), caption="""Vebinarga ro'yxatdan o'tganingiz uchun tashakkur-" Haqiqiy baxtga yetish uchun 5 qadam"!🔥
 
-..........."Haqiqiy baxtga yetish uchun 5 qadam" Vebinarga  muvaffaqiyatli ro'yxatdan o'tganingiz bilan tabriklayman!🎉
+10-dekabr "Haqiqiy baxtga yetish uchun 5 qadam" Vebinarga  muvaffaqiyatli ro'yxatdan o'tganingiz bilan tabriklayman!🎉
 
-Vebinar ………dekabr  kuni YouTube da bo'lib o'tadi. Ammo hozircha - "Gaytlik" ni sovg'a sifatida saqlab oling.
+Vebinar 10-dekabr  kuni YouTube da bo'lib o'tadi. Ammo hozircha - "Gaytlik" ni sovg'a sifatida saqlab oling.
 
 Men sizni Vebinar haqida eslatib boraman  ❤️bizni kuzatishda davom eting.
 
