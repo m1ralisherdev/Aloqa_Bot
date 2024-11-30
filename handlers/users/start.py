@@ -29,6 +29,10 @@ async def check_subscription(user_id):
 
 @dp.message_handler(commands='start')
 async def start_bosganda(message: types.Message, state: FSMContext):
+    if " " in message.text:
+        param = message.text.split(" ", 1)[1]
+        if param == 'start':
+            await message.answer_document(open('media/Intim-xavfsizlik-qoidalari.pdf', 'rb'))
     await message.answer(f"Assalomu Aleykum {message.from_user.first_name}")
     # await message.answer_video_note(video_note=open('media/start_reklama.mp4', "rb"))
     await message.answer("""
