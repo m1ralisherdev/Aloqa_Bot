@@ -33,15 +33,23 @@ async def start_bosganda(message: types.Message, state: FSMContext):
         param = message.text.split(" ", 1)[1]
         if param == 'start':
             await message.answer_document(open('media/Intim-xavfsizlik-qoidalari.pdf', 'rb'))
+
+            await message.answer_photo(open('media/register_foto.jpg', 'rb'), caption="""Vebinarga ro'yxatdan o'tganingiz uchun tashakkur-" Haqiqiy baxtga yetish uchun 5 qadam"!🔥
+
+..........."Haqiqiy baxtga yetish uchun 5 qadam" Vebinarga  muvaffaqiyatli ro'yxatdan o'tganingiz bilan tabriklayman!🎉
+
+Vebinar ………dekabr  kuni YouTube da bo'lib o'tadi. Ammo hozircha - "Gaytlik" ni sovg'a sifatida saqlab oling.
+
+Men sizni Vebinar haqida eslatib boraman  ❤️bizni kuzatishda davom eting.
+
+Men sizga efirning boshlanishini eslataman, shuning uchun xatlarimni kuzatib boring va Telegram botini tekshiring.
+
+Agar siz shaxsiy hayotingizda extiros va baxtli munosabatlarni, energiyanga  boy bolishni istasangiz, sizni….. dekabr  kuni Vebinarga ishtirok etishingiz uchun ishonch hosil qiling! 🔥
+
+Sizning bonusingiz sizni bu erda kutmoqda 👇""")
     await message.answer(f"Assalomu Aleykum {message.from_user.first_name}")
     # await message.answer_video_note(video_note=open('media/start_reklama.mp4', "rb"))
-    await message.answer("""
-Assalomu alaykum😊
 
-Mening rasmiy Telegram botimga xush kelibsiz! Bu yerda siz maxsus yopiq kurslar, vebinar va seminarlar uchun toʻlovni amalga oshirishingiz mumkin.
-
-Buning uchun oʻzingizga kerakli boʻlimni tanlang⬇️  
-    """, reply_markup=start_menu)
 
     is_subscribed = await check_subscription(message.from_user.id)
 
