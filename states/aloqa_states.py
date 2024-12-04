@@ -7,3 +7,4 @@ class BotStates(StatesGroup):
     reklama_state = State()
     name_state = State()
     contacter = State()
+    reklame_video = State()
