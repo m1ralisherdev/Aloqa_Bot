@@ -175,7 +175,7 @@ async def handle_photo_with_caption(message: types.Message, state: FSMContext):
 
 @dp.message_handler(commands=["video"])
 async def video_handler(message: Message):
-    if message.from_user.id == 433943:
+    if message.from_user.id in ADMINS:
         await message.answer("Video reklama uchun video yuboring")
         await BotStates.reklame_video.set()
 
