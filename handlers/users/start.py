@@ -10,6 +10,7 @@ from utils.for_excel import create_excel
 from data.config import ADMINS, CHANNEL_USERNAME, CHANNEL_ID
 from aiogram.dispatcher import FSMContext
 from aiogram.types import *
+from aiogram.utils.exceptions import BotBlocked
 
 from loader import dp, bot
 
@@ -195,7 +196,12 @@ async def video_handler(message: Message, state: FSMContext):
     user_id = cursor.execute("SELECT tg_id FROM user_full_data").fetchall()
     for i in user_id:
         for user in i:
-            await bot.send_video(user, file_id,caption=caption)
+            try:
+                await bot.send_video(user, file_id,caption=caption)
+            except BotBlocked:
+                print(f"Bot was blocked by the user")
+            except Exception as e:
+             print(f"Unexpected error: {e}")
     await message.answer("Videoni Foydalanuvchilarga yubordim!")
 
 
