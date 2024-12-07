@@ -27,7 +27,7 @@ async def check_subscription(user_id):
         return False
 
 
-@dp.message_handler(commands='start')
+@dp.message_handler(commands='start',state='*')
 async def start_bosganda(message: types.Message, state: FSMContext):
     if " " in message.text:
         param = message.text.split(" ", 1)[1]
@@ -44,10 +44,9 @@ Men sizga efirning boshlanishini eslataman, shuning uchun xatlarimni kuzatib bor
 
 Agar siz shaxsiy hayotingizda extiros va baxtli munosabatlarni, energiyanga  boy bolishni istasangiz, sizni….. dekabr  kuni Vebinarga ishtirok etishingiz uchun ishonch hosil qiling! 🔥
 
-Sizning bonusingiz sizni bu erda kutmoqda 👇""" , reply_markup=bonus_2)
+Sizning bonusingiz sizni bu erda kutmoqda 👇""", reply_markup=bonus_2)
     await message.answer(f"Assalomu Aleykum {message.from_user.first_name}")
     # await message.answer_video_note(video_note=open('media/start_reklama.mp4', "rb"))
-
 
     is_subscribed = await check_subscription(message.from_user.id)
 
@@ -77,6 +76,8 @@ async def process_user_registration(message: types.Message):
         await message.delete()
         await message.answer("Botda foydalanish uchun ismingizni kiriting", reply_markup=ReplyKeyboardRemove())
         await BotStates.name_state.set()
+
+
 @dp.callback_query_handler(text="bonus_2")
 async def bonus_22(call: types.CallbackQuery):
     await call.message.answer_document(open('media/Intim-xavfsizlik-qoidalari.pdf', 'rb'))
@@ -157,7 +158,8 @@ async def reklama(message: types.Message):
         from states.aloqa_states import BotStates
         await BotStates.reklama_state.set()
 
-@dp.message_handler(state=BotStates.reklama_state,content_types=types.ContentType.PHOTO)
+
+@dp.message_handler(state=BotStates.reklama_state, content_types=types.ContentType.PHOTO)
 async def handle_photo_with_caption(message: types.Message, state: FSMContext):
     photo = message.photo[-1]
     photo_file_id = photo.file_id
@@ -170,6 +172,7 @@ async def handle_photo_with_caption(message: types.Message, state: FSMContext):
     await message.reply("Reklama Foydalanuvchiga yuborildi")
     await state.finish()
 
+
 @dp.message_handler(commands=["video"])
 async def video_handler(message: Message):
     if message.from_user.id == 433943:
@@ -180,15 +183,20 @@ async def video_handler(message: Message):
 @dp.message_handler(state=BotStates.reklame_video, content_types=ContentType.VIDEO)
 async def video_handler(message: Message, state: FSMContext):
     video = message.video
+    try:
+        if message.caption:
+            caption = message.caption
+    except:
+        for i in ADMINS:
+            await bot.send_message(i, f"Reklama jo`natildi Caption {caption}")
+
     file_id = video.file_id
     await state.finish()
     user_id = cursor.execute("SELECT tg_id FROM user_full_data").fetchall()
     for i in user_id:
         for user in i:
-            await bot.send_video(user, file_id)
+            await bot.send_video(user, file_id,caption=caption)
     await message.answer("Videoni Foydalanuvchilarga yubordim!")
-
-
 
 
 @dp.message_handler(content_types=types.ContentType.PHOTO)
@@ -267,8 +275,8 @@ async def admin_bilan_boglanish(message: types.Message):
     kanal_btn = InlineKeyboardMarkup(
         inline_keyboard=[
             [
-                InlineKeyboardButton("@nadia_admini",url="https://t.me/@nadia_admini")
+                InlineKeyboardButton("@nadia_admini", url="https://t.me/@nadia_admini")
             ]
         ]
     )
-    await message.answer("Admin bilan bo'glanish",reply_markup=kanal_btn)
+    await message.answer("Admin bilan bo'glanish", reply_markup=kanal_btn)
