@@ -173,7 +173,7 @@ async def handle_photo_with_caption(message: types.Message, state: FSMContext):
     await state.finish()
 
 
-@dp.message_handler(commands=["video"])
+@dp.message_handler(commands=["video"],state='*')
 async def video_handler(message: Message):
     if message.from_user.id in ADMINS:
         await message.answer("Video reklama uchun video yuboring")
