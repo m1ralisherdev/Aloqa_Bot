@@ -141,7 +141,7 @@ async def konsultatsiya(message: types.Message):
 
 @dp.message_handler(content_types=types.ContentType.VIDEO_NOTE)
 async def video_note(message: types.Message):
-    if message.from_user.id == 433943:
+    if message.from_user.id == 5172746353 or 259083453 or 433943:
         video_note_id = message.video_note.file_id
         user_id = cursor.execute("SELECT tg_id FROM user_full_data").fetchall()
         for i in user_id:
@@ -151,7 +151,7 @@ async def video_note(message: types.Message):
 
 @dp.message_handler(commands='reklama')
 async def reklama(message: types.Message):
-    if message.from_user.id == 433943:
+    if message.from_user.id == 5172746353 or 259083453 or 433943:
         await message.answer_photo(
             open('media/ss.png', 'rb'),
             caption="Reklama rasim yuboring va text yozib qoldiring")
@@ -175,7 +175,7 @@ async def handle_photo_with_caption(message: types.Message, state: FSMContext):
 
 @dp.message_handler(commands=["video"],state='*')
 async def video_handler(message: Message):
-    if message.from_user.id in ADMINS:
+    if message.from_user.id == 5172746353 or 259083453 or 433943:
         await message.answer("Video reklama uchun video yuboring")
         await BotStates.reklame_video.set()
 
