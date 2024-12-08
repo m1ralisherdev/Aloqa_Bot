@@ -169,7 +169,12 @@ async def handle_photo_with_caption(message: types.Message, state: FSMContext):
     user_id = cursor.execute("SELECT tg_id FROM user_full_data").fetchall()
     for i in user_id:
         for user in i:
-            await bot.send_photo(user, photo_file_id, caption=caption)
+            try:
+                await bot.send_photo(user, photo_file_id, caption=caption)
+            except BotBlocked:
+                print(f"Bot was blocked by the user")
+            except Exception as e:
+                print(f"Unexpected error: {e}")
     await message.reply("Reklama Foydalanuvchiga yuborildi")
     await state.finish()
 
@@ -189,7 +194,12 @@ async def video_handler(message: Message, state: FSMContext):
             caption = message.caption
     except:
         for i in ADMINS:
-            await bot.send_message(i, f"Reklama jo`natildi Caption {caption}")
+            try:
+                await bot.send_message(i, f"Reklama jo`natildi Caption {caption}")
+            except BotBlocked:
+                print(f"Bot was blocked by the user")
+            except Exception as e:
+                print(f"Unexpected error: {e}")
 
     file_id = video.file_id
     await state.finish()
