@@ -39,7 +39,7 @@ bonus_2 = InlineKeyboardMarkup(
 kurs = InlineKeyboardMarkup(
     inline_keyboard=[
         [
-            InlineKeyboardButton(text="Kursga Yozilish 💖", callback_data="kursga_yozish")
+            InlineKeyboardButton(text="Kursga Yozilish 💖", callback_data="kursga_yozish", url="t.me/nadia_admini")
         ]
     ]
 )
