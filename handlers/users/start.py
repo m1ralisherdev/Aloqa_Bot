@@ -278,17 +278,17 @@ Bu siz bilan uzoq vaqt birga bo'ladigan yengillik va Ilhom hissi bo’ladi.
 
         # Barcha rasmlarni bitta media group sifatida yuborish
         await message.answer_media_group(media=media)
-        await message.answer("Kursga yozilmoqchimisz?", reply_markup=kurs)
+        await message.answer("""
+❤️Kursga yozilmoqchimisiz? 
+
+😊pastdagi tugma orqali adminga "Kurs" so`zini yuboring
+        """, reply_markup=kurs)
 
 
     finally:
         for file in open_files:
             file.close()
 
-
-@dp.callback_query_handler(text="kursga_yozish")
-async def kursgayozilish(callback: types.CallbackQuery):
-    await callback.message.answer("Adminga boglaning👮‍♀️\n️\n@nadia_admini✅")
 
 
 @dp.message_handler(text="Professional kurs")
