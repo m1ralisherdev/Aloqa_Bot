@@ -5,7 +5,7 @@ from aiogram.dispatcher import FSMContext
 from marshmallow.fields import Boolean
 from database import cursor, connect
 from keyboards.default.buttons import start_menu, Kurslarim, Konsultatsiya, contact_button
-from keyboards.inline.til import narx, bonus, bonus_2
+from keyboards.inline.til import narx, bonus, bonus_2, kurs
 from utils.for_excel import create_excel
 from data.config import ADMINS, CHANNEL_USERNAME, CHANNEL_ID
 from aiogram.dispatcher import FSMContext
@@ -241,10 +241,54 @@ async def get_users_data(message: types.Message):
     else:
         await message.answer("Bu faqat adminlar uchun!!!")
 
-
 @dp.message_handler(text="Siz Baxtli Bo'lasiz 💖")
 async def course_answer1(message: types.Message):
-    await bot.send_message(chat_id=message.from_user.id, text="⏳ Tez kunda !!!", reply_markup=start_menu)
+    photos = [
+        "media/image_n1.jpg",
+        "media/image_n2.jpg",
+        "media/image_n3.jpg",
+        "media/image_n4.jpg"
+    ]
+
+    # Media group uchun ochiq fayllarni oldindan tayyorlash
+    media = []
+    open_files = []
+    try:
+        for index, photo in enumerate(photos):
+            file = open(photo, "rb")
+            open_files.append(file)  # Fayllarni yopish uchun saqlab boramiz
+
+            # Faqat birinchi rasmga caption qo'shamiz
+            if index == 0:
+                media.append(InputMediaPhoto(media=file, caption="""
+O’ziga ishonch✅
+Haqiqiy baxtga erishish✅
+Lazzatli hayotni boshlanishi✅
+Ideal ayol bo’lish sirlari✅
+Qo’rquv va cheklovlardan xalos bo’lish✅
+O'zgarish yo'lidagi har bir qadam sizning kelajagingizga kuchli hissa qo'shadi va ishoning, siz u erda baxtli bo’lasiz!
+
+"Siz baxtli bo’lasiz" nomli kurs shunchaki bilim emas, balki ishlaydigan amaliyotdir. 
+Bu o'zingizni ichki to'siqlardan xalos qiladigan, motivatsiya bilan to'ldiradigan va hayotingizga uyg'unlikni qaytaradigan paytdir.
+
+Bu siz bilan uzoq vaqt birga bo'ladigan yengillik va Ilhom hissi bo’ladi.
+            """))
+            else:
+                media.append(InputMediaPhoto(media=file))
+
+        # Barcha rasmlarni bitta media group sifatida yuborish
+        await message.answer_media_group(media=media)
+        await message.answer("Kursga yozilmoqchimisz?", reply_markup=kurs)
+
+
+    finally:
+        for file in open_files:
+            file.close()
+
+
+@dp.callback_query_handler(text="kursga_yozish")
+async def kursgayozilish(callback: types.CallbackQuery):
+    await callback.message.answer("Adminga boglaning👮‍♀️\n️\n@nadia_admini✅")
 
 
 @dp.message_handler(text="Professional kurs")
