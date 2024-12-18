@@ -48,10 +48,58 @@ Men sizga efirning boshlanishini eslataman, shuning uchun xatlarimni kuzatib bor
 Agar siz shaxsiy hayotingizda extiros va baxtli munosabatlarni, energiyanga  boy bolishni istasangiz, sizni….. dekabr  kuni Vebinarga ishtirok etishingiz uchun ishonch hosil qiling! 🔥
 
 Sizning bonusingiz sizni bu erda kutmoqda 👇""", reply_markup=bonus_2)
+        elif param == "v1_kurs":
+            photos = [
+                "media/image_n1.jpg",
+                "media/image_n2.jpg",
+                "media/image_n3.jpg",
+                "media/image_n4.jpg"
+            ]
+
+            # Media group uchun ochiq fayllarni oldindan tayyorlash
+            media = []
+            open_files = []
+            try:
+                for index, photo in enumerate(photos):
+                    file = open(photo, "rb")
+                    open_files.append(file)  # Fayllarni yopish uchun saqlab boramiz
+
+                    # Faqat birinchi rasmga caption qo'shamiz
+                    if index == 0:
+                        media.append(InputMediaPhoto(media=file, caption="""
+O’ziga ishonch✅
+Haqiqiy baxtga erishish✅
+Lazzatli hayotni boshlanishi✅
+Ideal ayol bo’lish sirlari✅
+Qo’rquv va cheklovlardan xalos bo’lish✅
+O'zgarish yo'lidagi har bir qadam sizning kelajagingizga kuchli hissa qo'shadi va ishoning, siz u erda baxtli bo’lasiz!
+
+"Siz baxtli bo’lasiz" nomli kurs shunchaki bilim emas, balki ishlaydigan amaliyotdir. 
+Bu o'zingizni ichki to'siqlardan xalos qiladigan, motivatsiya bilan to'ldiradigan va hayotingizga uyg'unlikni qaytaradigan paytdir.
+
+Bu siz bilan uzoq vaqt birga bo'ladigan yengillik va Ilhom hissi bo’ladi.
+            """))
+                    else:
+                        media.append(InputMediaPhoto(media=file))
+
+                # Barcha rasmlarni bitta media group sifatida yuborish
+                await message.answer_media_group(media=media)
+                await message.answer("""
+❤️Kursga yozilmoqchimisiz? 
+
+😊pastdagi tugma orqali adminga "Kurs" so`zini yuboring
+""", reply_markup=kurs)
+
+
+            finally:
+                for file in open_files:
+                    file.close()
     await message.answer(f"Assalomu Aleykum {message.from_user.first_name}")
     # await message.answer_video_note(video_note=open('media/start_reklama.mp4', "rb"))
 
     is_subscribed = await check_subscription(message.from_user.id)
+
+
 
     if not is_subscribed:
         await message.answer(
