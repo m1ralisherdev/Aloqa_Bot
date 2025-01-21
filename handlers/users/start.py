@@ -7,12 +7,11 @@ from database import cursor, connect
 from keyboards.default.buttons import start_menu, Kurslarim, Konsultatsiya, contact_button
 from keyboards.inline.til import narx, bonus, bonus_2, kurs
 from utils.for_excel import create_excel
-from data.config import ADMINS, CHANNEL_USERNAME, CHANNEL_ID
+from data.config import ADMINS, CHANNEL_ID
 from aiogram.dispatcher import FSMContext
 from aiogram.types import *
 from aiogram.utils.exceptions import BotBlocked
-
-
+from payments.payme import create_transactions,check_transactions
 
 from loader import dp, bot
 
@@ -108,7 +107,7 @@ Bu siz bilan uzoq vaqt birga bo'ladigan yengillik va Ilhom hissi bo’ladi.
 Obuna bo'lgandan so'ng esa <code>tekshirish</code> tugmasini bo'sing ✅
             </b>""",
             reply_markup=InlineKeyboardMarkup(row_width=1).add(
-                InlineKeyboardButton("Kanalga obuna bo'lish", url=f"https://t.me/{CHANNEL_USERNAME}"),
+                InlineKeyboardButton("Kanalga obuna bo'lish", url=f"https://t.me/+0jkmmfBvKRg1MmUy"),
                 InlineKeyboardButton("Tekshirish", callback_data="check_subscription")
             )
         )
@@ -341,6 +340,13 @@ Bu siz bilan uzoq vaqt birga bo'ladigan yengillik va Ilhom hissi bo’ladi.
 
 @dp.message_handler(text="Professional kurs")
 async def course_answer1(message: types.Message):
+    creating_url = create_transactions()
+    pay_button = InlineKeyboardMarkup(row_width=1)
+    tolov_btn = InlineKeyboardButton("To'lov qilish", url=creating_url[0])
+    check_btn = InlineKeyboardButton("Tekshirish", callback_data=creating_url[1])
+    
+    await bot.send_message(chat_id=message.from_user.id, text="")
+
     await bot.send_message(chat_id=message.from_user.id, text="⏳ Tez kunda !!!", reply_markup=start_menu)
 
 

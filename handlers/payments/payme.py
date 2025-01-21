@@ -29,8 +29,10 @@ def create_transactions():
             # Split the content to find 'Номер чека'
             parts = meta_description.split(',')
             check_id = parts[1].split(':')[1]
+            print(check_id)
             a = 'https://checkout.paycom.uz/' + response.text[start_index:end_index].split('/')[5]
-            return [check_id, a]
+            b = response.text[start_index:end_index].split('/')[5]
+            return [a,b]
 
         else:
             print("Redirect form not found in the response.")
