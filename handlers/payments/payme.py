@@ -29,7 +29,6 @@ def create_transactions():
             # Split the content to find 'Номер чека'
             parts = meta_description.split(',')
             check_id = parts[1].split(':')[1]
-            print(check_id)
             a = 'https://checkout.paycom.uz/' + response.text[start_index:end_index].split('/')[5]
             b = response.text[start_index:end_index].split('/')[5]
             return [a,b]
@@ -39,7 +38,6 @@ def create_transactions():
     else:
         print(f"Failed to send request. Status code: {response.status_code}")
 
-print(create_transactions())
 
 
 def check_transactions(check_id):

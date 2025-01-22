@@ -17,6 +17,14 @@ async def check_user_data(tg_id):
     else:
         return False
 
+async def get_name_user(tg_id):
+    cursor.execute('SELECT ism FROM user_full_data WHERE tg_id=?', (tg_id,))
+    result = cursor.fetchone()
+    if result:
+        return result[0]
+    return None
+        
+
 
 async def bazaga_qoshish(ism, tg_id, joined_data):
     cursor.execute('SELECT * FROM user_full_data WHERE tg_id=?', (tg_id,))

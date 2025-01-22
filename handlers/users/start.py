@@ -11,7 +11,7 @@ from data.config import ADMINS, CHANNEL_ID
 from aiogram.dispatcher import FSMContext
 from aiogram.types import *
 from aiogram.utils.exceptions import BotBlocked
-from payments.payme import create_transactions,check_transactions
+from ..payments.payme import create_transactions,check_transactions
 
 from loader import dp, bot
 
@@ -342,12 +342,11 @@ Bu siz bilan uzoq vaqt birga bo'ladigan yengillik va Ilhom hissi bo’ladi.
 async def course_answer1(message: types.Message):
     creating_url = create_transactions()
     pay_button = InlineKeyboardMarkup(row_width=1)
-    tolov_btn = InlineKeyboardButton("To'lov qilish", url=creating_url[0])
-    check_btn = InlineKeyboardButton("Tekshirish", callback_data=creating_url[1])
-    
-    await bot.send_message(chat_id=message.from_user.id, text="")
-
-    await bot.send_message(chat_id=message.from_user.id, text="⏳ Tez kunda !!!", reply_markup=start_menu)
+    tolov_btn = InlineKeyboardButton("To'lov", url=creating_url[0])
+    check_btn = InlineKeyboardButton("Tekshirish", callback_data=f"checkid_{creating_url[1]}")
+    pay_button.add(tolov_btn,check_btn)
+    await bot.send_message(chat_id=message.from_user.id, text="Kanalga qo'shilish uchun\n<b>200 000 UZS</b> miqdorda\nto'lov qilishingiz kerak !\nTo'lov qilish uchun <b>To'lov</b> tugmasini bosing va qilingan to'lovni tekshiring!", reply_markup=pay_button)
+    # await bot.send_message(chat_id=message.from_user.id, text="⏳ Tez kunda !!!", reply_markup=start_menu)
 
 
 @dp.message_handler(text='📚 Jinsiy Tarbiya')
