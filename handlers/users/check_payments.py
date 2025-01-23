@@ -8,7 +8,7 @@ from datetime import datetime, timedelta
 from database import get_name_user,add_payment_data
 
 
-@dp.callback_query_handler(lambda a: a.data.startswith('checkid_'))
+@dp.callback_query_handler(lambda a: a.data.startswith('checkid_'),state="*")
 async def send_link_channel(call: types.CallbackQuery):
     check_id = call.data.split('_')[1]
     status_payment = check_transactions(check_id=check_id)
