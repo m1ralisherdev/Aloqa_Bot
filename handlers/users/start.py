@@ -19,11 +19,11 @@ datas = {}
 
 from database import check_user_data, bazaga_qoshish, update_contact
 from states.aloqa_states import BotStates
-
+chanel_subs=-1002457603969
 
 async def check_subscription(user_id):
     try:
-        member = await bot.get_chat_member(chat_id=CHANNEL_ID, user_id=user_id)
+        member = await bot.get_chat_member(chat_id=chanel_subs, user_id=user_id)
         return member.status in ["member", "administrator", "creator"]
     except Exception as e:
         return False
@@ -107,7 +107,7 @@ Bu siz bilan uzoq vaqt birga bo'ladigan yengillik va Ilhom hissi bo’ladi.
 Obuna bo'lgandan so'ng esa <code>tekshirish</code> tugmasini bo'sing ✅
             </b>""",
             reply_markup=InlineKeyboardMarkup(row_width=1).add(
-                InlineKeyboardButton("Kanalga obuna bo'lish", url=f"https://t.me/+0jkmmfBvKRg1MmUy"),
+                InlineKeyboardButton("Kanalga obuna bo'lish", url=f"https://t.me/ayolcommunity"),
                 InlineKeyboardButton("Tekshirish", callback_data="check_subscription")
             )
         )
@@ -340,12 +340,23 @@ Bu siz bilan uzoq vaqt birga bo'ladigan yengillik va Ilhom hissi bo’ladi.
 
 @dp.message_handler(text="Professional kurs")
 async def course_answer1(message: types.Message):
+    text_payment = """Obuna Jarayoni:
+
+Hurmatli foydalanuvchi,
+
+Bizning maxsus kanalimizga qo'shilish uchun quyidagi qadamlarni bajaring:
+
+1. <b>To'lov Tugmasi</b>: Obuna bo'lish uchun "To'lov" tugmasini bosing va to'lovni amalga oshiring.\n
+2. <b>Tekshirish Tugmasi</b>: To'lovni muvaffaqiyatli amalga oshirgandan so'ng, "Tekshirish" tugmasini bosing.\n
+3. <b>Kanalga Qo'shilish</b>: Agar to'lov tasdiqlangan bo'lsa, sizga kanal linki yuboriladi. Bu link orqali kanalimizga qo'shilishingiz mumkin.
+
+"""
     creating_url = create_transactions()
     pay_button = InlineKeyboardMarkup(row_width=1)
     tolov_btn = InlineKeyboardButton("To'lov", url=creating_url[0])
     check_btn = InlineKeyboardButton("Tekshirish", callback_data=f"checkid_{creating_url[1]}")
     pay_button.add(tolov_btn,check_btn)
-    await bot.send_message(chat_id=message.from_user.id, text="Kanalga qo'shilish uchun\n<b>200 000 UZS</b> miqdorda\nto'lov qilishingiz kerak !\nTo'lov qilish uchun <b>To'lov</b> tugmasini bosing va qilingan to'lovni tekshiring!", reply_markup=pay_button)
+    await bot.send_message(chat_id=message.from_user.id, text=text_payment, reply_markup=pay_button)
     # await bot.send_message(chat_id=message.from_user.id, text="⏳ Tez kunda !!!", reply_markup=start_menu)
 
 
@@ -390,7 +401,7 @@ async def admin_bilan_boglanish(message: types.Message):
     kanal_btn = InlineKeyboardMarkup(
         inline_keyboard=[
             [
-                InlineKeyboardButton("@nadia_admini", url="https://t.me/@nadia_admini")
+                InlineKeyboardButton("@nadiya_admini", url="https://t.me/@nadiya_admini")
             ]
         ]
     )

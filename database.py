@@ -8,6 +8,15 @@ cursor.execute(
 cursor.execute("CREATE TABLE IF NOT EXISTS kitoblar(path TEXT)")
 cursor.execute(
     "CREATE TABLE IF NOT EXISTS user_full_data(ism TEXT NULL, tg_id TEXT UNIQUE NULL,phone_number TEXT NULL,joined_data TEXT NULL)")
+cursor.execute("""CREATE TABLE IF NOT EXISTS payments_data(ism TEXT NULL, tg_id TEXT NULL, transaction_id TEXT UNIQUE NULL, summa TEXT DEFAULT "200.000", joined_date datetime NULL, lefted_date datetime NULL)""")
+
+
+
+async def add_payment_data(ism,tg_id,transaction_id,joined_date,lefted_date):
+    cursor.execute("INSERT INTO payments_data (ism,tg_id,transaction_id,joined_date,lefted_date) VALUES (?, ?, ?, ?, ?)",(ism,tg_id,transaction_id,joined_date,lefted_date))
+    connect.commit()
+
+
 
 
 async def check_user_data(tg_id):
