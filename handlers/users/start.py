@@ -338,7 +338,7 @@ Bu siz bilan uzoq vaqt birga bo'ladigan yengillik va Ilhom hissi bo’ladi.
 
 
 
-@dp.message_handler(text="Professional kurs")
+@dp.message_handler(text="Ayol Terapiya  (KANAL) ")
 async def course_answer1(message: types.Message):
     text_payment = """Obuna Jarayoni:
 

@@ -27,7 +27,7 @@ Kurslarim = ReplyKeyboardMarkup(
             KeyboardButton(text='Professional kurs'),
         ],
         [
-            KeyboardButton(text='Geysha sirlari'),
+            KeyboardButton(text='Ayol Terapiya  (KANAL) '),
         ],
 
     ],
