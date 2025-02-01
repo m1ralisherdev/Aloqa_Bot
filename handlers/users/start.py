@@ -175,6 +175,24 @@ async def bonus_ssaa(call: types.CallbackQuery):
 
 @dp.message_handler(text="📔 Kurslarim")
 async def handle_kurslarim(message: types.Message):
+    text_payment = """Obuna Jarayoni:
+
+Hurmatli foydalanuvchi,
+
+Bizning maxsus kanalimizga qo'shilish uchun quyidagi qadamlarni bajaring:
+
+1. <b>To'lov Tugmasi</b>: Obuna bo'lish uchun "To'lov" tugmasini bosing va to'lovni amalga oshiring.\n
+2. <b>Tekshirish Tugmasi</b>: To'lovni muvaffaqiyatli amalga oshirgandan so'ng, "Tekshirish" tugmasini bosing.\n
+3. <b>Kanalga Qo'shilish</b>: Agar to'lov tasdiqlangan bo'lsa, sizga kanal linki yuboriladi. Bu link orqali kanalimizga qo'shilishingiz mumkin.
+
+"""
+    creating_url = create_transactions()
+    pay_button = InlineKeyboardMarkup(row_width=1)
+    tolov_btn = InlineKeyboardButton("To'lov", url=creating_url[0])
+    check_btn = InlineKeyboardButton("Tekshirish", callback_data=f"checkid_{creating_url[1]}")
+    pay_button.add(tolov_btn,check_btn)
+    await bot.send_message(chat_id=message.from_user.id, text=text_payment, reply_markup=pay_button)
+    
     await message.answer("Quyidagi tugmalardan birini tanlang:", reply_markup=Kurslarim)
 
 
@@ -338,26 +356,9 @@ Bu siz bilan uzoq vaqt birga bo'ladigan yengillik va Ilhom hissi bo’ladi.
 
 
 
-@dp.message_handler(text="Ayol Terapiya  (KANAL)")
+@dp.message_handler(text="Professional kurs")
 async def course_answer1(message: types.Message):
-    text_payment = """Obuna Jarayoni:
-
-Hurmatli foydalanuvchi,
-
-Bizning maxsus kanalimizga qo'shilish uchun quyidagi qadamlarni bajaring:
-
-1. <b>To'lov Tugmasi</b>: Obuna bo'lish uchun "To'lov" tugmasini bosing va to'lovni amalga oshiring.\n
-2. <b>Tekshirish Tugmasi</b>: To'lovni muvaffaqiyatli amalga oshirgandan so'ng, "Tekshirish" tugmasini bosing.\n
-3. <b>Kanalga Qo'shilish</b>: Agar to'lov tasdiqlangan bo'lsa, sizga kanal linki yuboriladi. Bu link orqali kanalimizga qo'shilishingiz mumkin.
-
-"""
-    creating_url = create_transactions()
-    pay_button = InlineKeyboardMarkup(row_width=1)
-    tolov_btn = InlineKeyboardButton("To'lov", url=creating_url[0])
-    check_btn = InlineKeyboardButton("Tekshirish", callback_data=f"checkid_{creating_url[1]}")
-    pay_button.add(tolov_btn,check_btn)
-    await bot.send_message(chat_id=message.from_user.id, text=text_payment, reply_markup=pay_button)
-    # await bot.send_message(chat_id=message.from_user.id, text="⏳ Tez kunda !!!", reply_markup=start_menu)
+    await bot.send_message(chat_id=message.from_user.id, text="⏳ Tez kunda !!!", reply_markup=start_menu)
 
 
 @dp.message_handler(text='📚 Jinsiy Tarbiya')

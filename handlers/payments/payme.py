@@ -9,7 +9,7 @@ def create_transactions():
     # Data to be sent in the POST request
     data = {
         'merchant': '672b8224c628bf0c13f3c4ef',
-        'amount': '20000000',
+        'amount': '10000000',
         'account[charge_id]': charge_id
     }
     # Sending POST request
