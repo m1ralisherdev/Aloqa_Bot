@@ -28,12 +28,12 @@ async def send_link_channel(call: types.CallbackQuery):
         await call.message.edit_reply_markup(reply_markup=tolandi_btn)
         link = await bot.create_chat_invite_link(
             chat_id=CHANNEL_ID,
-            expire_date=datetime.now() + timedelta(days=20),
+            expire_date=datetime.now() + timedelta(days=10),
             member_limit=1,
             name=user_name
         )
         await bot.send_message(chat_id=call.from_user.id,text=f"Kanalga ulanish uchun havola:\n{link.invite_link}")
-        await asyncio.sleep(20 * 24 * 60 * 60)  # 20 kun (soniyalarda)
+        await asyncio.sleep(10 * 24 * 60 * 60)  # 10 kun (soniyalarda)
         try:
             await bot.ban_chat_member(CHANNEL_ID, call.from_user.id)  # Foydalanuvchini chiqarib yuborish
             await bot.unban_chat_member(CHANNEL_ID, call.from_user.id)  # Foydalanuvchini qayta qo‘shish imkoniyatini berish
