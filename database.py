@@ -8,7 +8,7 @@ cursor.execute(
 cursor.execute("CREATE TABLE IF NOT EXISTS kitoblar(path TEXT)")
 cursor.execute(
     "CREATE TABLE IF NOT EXISTS user_full_data(ism TEXT NULL, tg_id TEXT UNIQUE NULL,phone_number TEXT NULL,joined_data TEXT NULL)")
-cursor.execute("""CREATE TABLE IF NOT EXISTS payments_data(ism TEXT NULL, tg_id TEXT NULL, transaction_id TEXT UNIQUE NULL, summa TEXT DEFAULT "200.000", joined_date datetime NULL, lefted_date datetime NULL)""")
+cursor.execute("""CREATE TABLE IF NOT EXISTS payments_data(ism TEXT NULL, tg_id TEXT NULL, transaction_id TEXT UNIQUE NULL, summa TEXT DEFAULT "100.000", joined_date datetime NULL, lefted_date datetime NULL, status_joined BOOLEAN DEFAULT 1)""")
 
 
 
@@ -16,8 +16,14 @@ async def add_payment_data(ism,tg_id,transaction_id,joined_date,lefted_date):
     cursor.execute("INSERT INTO payments_data (ism,tg_id,transaction_id,joined_date,lefted_date) VALUES (?, ?, ?, ?, ?)",(ism,tg_id,transaction_id,joined_date,lefted_date))
     connect.commit()
 
+async def get_expired_users(current_date):
+    cursor.execute("SELECT tg_id FROM payments_data WHERE lefted_date <= ? AND status_joined == 1",(current_date,))
+    expired_users = cursor.fetchall()
+    return [user[0] for user in expired_users]
 
-
+async def update_payment_data(tg_id):
+    cursor.execute("UPDATE payments_data SET status_joined = 0 WHERE tg_id = ?",(tg_id,))
+    connect.commit()
 
 async def check_user_data(tg_id):
     cursor.execute('SELECT * FROM user_full_data WHERE tg_id=?', (tg_id,))
