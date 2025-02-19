@@ -19,6 +19,6 @@ async def on_startup(dispatcher):
     await check_expired_users()
     
     scheduler.add_job(check_expired_users, "interval", hours=24)
-
+#
 if __name__ == '__main__':
     executor.start_polling(dp, on_startup=on_startup)
